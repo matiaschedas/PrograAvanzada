@@ -17,7 +17,9 @@ public class Lista {
 		}catch (Exception e) { return false;}
 		aux=ult;
 		if(aux==null) pri=ult=nue;
-		else aux.setNodoSig(nue);
+		else { aux.setNodoSig(nue);
+		ult = nue;
+		}
 		return true;
 	}
 	
@@ -36,10 +38,16 @@ public class Lista {
 		Object dato;
 		if(pri==null)
 			return null;
-		anterior = getNodo(this.size()-2);
+		anterior=pri;
+		int pos = this.size()-2;
+		while(anterior.getNodoSig()!= null && pos>0) {
+			anterior=anterior.getNodoSig();
+			pos--;
+		}
 		nae=ult;
 		dato = nae.getDato();
 		anterior.setNodoSig(null);
+		ult=anterior;
 		return dato;
 	}
 	
