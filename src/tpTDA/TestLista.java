@@ -29,12 +29,12 @@ public class TestLista {
 		for (int i = 0; i < 8; i++) {
 			lista.pushBack(i);
 		}
-		int j=0;
+		int j=7;
 		Object n;
 		for(int i=0;i<5;i++){
 			n=lista.popBack();
 			assertEquals(j,n);
-			j++;
+			j--;
 		}
 	}
 		

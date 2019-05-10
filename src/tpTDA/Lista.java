@@ -2,28 +2,11 @@ package tpTDA;
 
 public class Lista {
 	
-	private Nodo nodo;
-	private PilaCL pila;
-	private ColaCL cola;
+	private Nodo pri;
+	private Nodo ult;
 	
-	public ColaCL getCola() {
-		return cola;
-	}
-
-	public void setCola(ColaCL cola) {
-		this.cola = cola;
-	}
-
-	public PilaCL getPila() {
-		return pila;
-	}
-
-	public void setPila(PilaCL pila) {
-		this.pila = pila;
-	}
-
 	public Lista() {
-		nodo=null;
+		pri=ult=null;
 	}
 	
 	public boolean pushBack(Object dato) {//inserta un elemento al final 
@@ -32,78 +15,72 @@ public class Lista {
 		try {
 			nue = new Nodo(dato,null);			
 		}catch (Exception e) { return false;}
-		aux=nodo;
-		while(aux!=null && aux.getNodoSig()!=null) {
-			aux=aux.getNodoSig();
-		}
-		if(aux==null) nodo=nue;
+		aux=ult;
+		if(aux==null) pri=ult=nue;
 		else aux.setNodoSig(nue);
 		return true;
+	}
+	
+	public Nodo getNodo(int pos) {
+		Nodo aux=pri;
+		while(aux!=null && pos>0) {
+			aux=aux.getNodoSig();
+			pos--;
+		}
+		if(pos==0) return aux;
+		return null;
 	}
 	
 	public Object popBack() {	//retorna y borra el elemento final
 		Nodo nae, anterior;
 		Object dato;
-		
-		if(nodo==null)
+		if(pri==null)
 			return null;
-		nae=anterior=nodo;
-		
-		while(nae!=null && nae.getNodoSig() != null) {
-			anterior=nae;
-			nae = nae.getNodoSig();
-		}
-		
+		anterior = getNodo(this.size()-2);
+		nae=ult;
 		dato = nae.getDato();
 		anterior.setNodoSig(null);
 		return dato;
 	}
 	
 	public boolean pushFront(Object dato) {//inserta un elemento al comienzo
-		Nodo nue, sig;
+		Nodo nue;
 		try {
-			nue = new Nodo(dato,null);
+			nue = new Nodo(dato,pri);
 		} catch (Exception e) {
 				return false;
 		}
-		sig=nodo;
-		nue.setNodoSig(sig);
-		nodo=nue;
+		pri=nue;
 		return true;
 	}
 	
 	public Object popFront() {//retorna y borra el elemento del principio
-		Nodo nae;
 		Object dato;
+		if(pri==null) return null;
 		
-		nae=nodo;
-		if(nae==null) return null;
-		
-		dato = nae.getDato();
-		nae = nae.getNodoSig();
-		nae = null;
+		dato = pri.getDato();
+		pri = pri.getNodoSig();
 		return dato;
 	}
 	
 	public Object remove(Object dato) {//elimina un elemento de valor determinado
 		Nodo nae, anterior;
 		Object datoRes;
-		
-		nae=anterior=nodo;
+		nae=anterior=pri;
 		while(nae!=null && nae.getDato()!=dato) {
 			anterior=nae;
 			nae = nae.getNodoSig();
 		}
 		if(nae != null && anterior==nae && nae.getDato()==dato){
-			nodo=nae.getNodoSig();
+			pri=nae.getNodoSig();
 			datoRes = nae.getDato();
-			anterior.setNodoSig(nae.getNodoSig());
+			nae=null;
 			return datoRes;
 		}
 		else if(nae != null && nae.getDato()==dato) {
 			anterior.setNodoSig(nae.getNodoSig());
-			nae.setNodoSig(null);
 			datoRes = nae.getDato();
+			nae=null;
 			return datoRes;
 		}
 		return null;
@@ -111,53 +88,53 @@ public class Lista {
 	
 	public void recorreYlista() {
 		Nodo aux;
-		aux=nodo;
+		aux=pri;
 		while(aux != null) {
 			System.out.println(aux.getDato());
 			aux=aux.getNodoSig();
 		}
 	}
-	public boolean reverse() {//invierte el orden de los elementos en la lista
-		Nodo pri, fin;
-		int delta=this.size();
-		int i=1;
-		int cont=0;
-		Object dato;
-		boolean flag=false;
-		
-		if(nodo==null)
-			return false;
-		//se deberia hacer con intercambio de "punteros".
-		pri=nodo;
-		fin=null;
-		while(pri!=fin && !flag) {
-			fin=nodo;
-			
-			while(fin.getNodoSig()!=null && cont<delta-i) {
-				cont++;
-				fin=fin.getNodoSig();
-			}
-			dato=pri.getDato();
-			pri.setDato(fin.getDato());
-			fin.setDato(dato);
-			i++;
-			cont=0;
-			pri=pri.getNodoSig();
-			if(fin.getNodoSig()==pri)
-				flag=true;
-		}	
-		return true;
-	}
+//	public boolean reverse() {//invierte el orden de los elementos en la lista
+//		Nodo pri, fin;
+//		int delta=this.size();
+//		int i=1;
+//		int cont=0;
+//		Object dato;
+//		boolean flag=false;
+//		
+//		if(nodo==null)
+//			return false;
+//		//se deberia hacer con intercambio de "punteros".
+//		pri=nodo;
+//		fin=null;
+//		while(pri!=fin && !flag) {
+//			fin=nodo;
+//			
+//			while(fin.getNodoSig()!=null && cont<delta-i) {
+//				cont++;
+//				fin=fin.getNodoSig();
+//			}
+//			dato=pri.getDato();
+//			pri.setDato(fin.getDato());
+//			fin.setDato(dato);
+//			i++;
+//			cont=0;
+//			pri=pri.getNodoSig();
+//			if(fin.getNodoSig()==pri)
+//				flag=true;
+//		}	
+//		return true;
+//	}
 	public boolean insertAt(int pos , Object dato) {//inserta dato en la pos indicada
 		Nodo nue,aux;
 		try {
 			nue = new Nodo(dato,null);
 		}
 		catch (Exception e) {return false;}
-		aux=nodo;
+		aux=pri;
 		if(pos==0) {
-			nue.setNodoSig(nodo);
-			nodo=nue;
+			nue.setNodoSig(pri);
+			pri=nue;
 		}
 		while(aux!=null && pos>1){
 			pos--;
@@ -174,7 +151,7 @@ public class Lista {
 		Nodo nae, anterior;
 		Object datoRes;
 		
-		nae=anterior=nodo;
+		nae=anterior=pri;
 		while(nae != null && pos>0) {
 			pos--;
 			anterior=nae;
@@ -182,7 +159,7 @@ public class Lista {
 		}
 		if(anterior==nae){
 			datoRes = nae.getDato();
-			nodo=nae.getNodoSig();
+			pri=nae.getNodoSig();
 			nae=null;
 		}
 		else if(nae != null && pos==0) {
@@ -195,23 +172,21 @@ public class Lista {
 	}
 	
 	public boolean isEmpty() {//verifica si esta vacia
-		if(nodo==null)
+		if(pri==null)
 			return true;
 		return false;
 	}
 	public void empty() {//vacia la lista
-		Nodo aux, ant;
-		aux=nodo;
+		Nodo aux;
+		aux=pri;
 		while(aux != null && aux.getNodoSig() != null) {
-			ant=aux;
 			aux=aux.getNodoSig();
-			ant=null;
-			nodo=aux;
+			pri=aux;
 		}
-		nodo=null;
+		pri=ult=null;
 	}
 	public Object search(Object dato) {//busca por dato
-		Nodo recorre=nodo;
+		Nodo recorre=pri;
 		while(recorre!=null && recorre.getDato()!=dato) {
 			recorre=recorre.getNodoSig();
 		}
@@ -222,9 +197,9 @@ public class Lista {
 	}
 	public Object searchAt(int pos) {//busca por posicion
 		Nodo bus;
-		if(nodo==null)
+		if(pri==null)
 			return null;
-		bus=nodo;
+		bus=pri;
 		while(bus!=null && pos>0) {
 			pos--;
 			bus=bus.getNodoSig();
@@ -237,7 +212,7 @@ public class Lista {
 	public int size() {//retorna numero de elementos en una lista
 		Nodo aux;
 		int res=0;
-		aux=nodo;
+		aux=pri;
 		while(aux != null) {
 			aux=aux.getNodoSig();
 			res++;

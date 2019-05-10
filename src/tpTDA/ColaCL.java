@@ -1,59 +1,34 @@
 package tpTDA;
 
 public class ColaCL implements Cola {
-	private Nodo frente;
-	private Nodo fondo;
+	Lista lista;
 
 	public void Cola() {
-		frente=null;
-		fondo=null;
+		lista = new Lista();
 	}
 	@Override
 	public boolean offer(Object dato) {
-		Nodo nue;
-		try {
-			 nue = new Nodo(dato,null);
-		}catch (Exception e) {
-			return false;
-		}
-		if(fondo == null && frente == null) {
-			frente = fondo = nue;			
-		}else {			
-			fondo.setNodoSig(nue);
-			fondo=nue;
-		}		
-		return true;
+		return lista.pushBack(dato);
 	}
 
 	@Override
 	public Object poll() {
-		Nodo nae;
-		if(frente!=null) {			
-			nae=frente;
-			frente=nae.getNodoSig();
-			return nae.getDato();
-		}			
-		return null;
+		return lista.popFront();
 	}
 
 	@Override
 	public Object peek() {
-		if(frente!=null)
-			return frente.getDato();
-		return null;
+		return lista.searchAt(0);
 	}
 
 	@Override
 	public boolean isEmpty() {
-		if(frente==null)
-			return true;
-		return false;
+		return lista.isEmpty();
 	}
 
 	@Override
 	public void empty() {
-		frente=fondo=null;
+		lista.empty();
 	}
-
 }
 

@@ -1,54 +1,35 @@
 package tpTDA;
 
 public class PilaCL implements Pila{
-	Nodo nodo;	
+	Lista lista;
 
 	public void Pila() {
-		nodo = null;
+		lista = new Lista();
 	}
+	
 	@Override
 	public boolean push(Object dato) {
-		Nodo nuevo;
-		
-		try {			
-			nuevo = new Nodo(dato,nodo);
-		}catch (Exception e) {
-			return false;
-		}
-		nodo = nuevo;
-		return true;
+		return lista.pushFront(dato);
 	}
 
 	@Override
 	public Object pop() {
-		Nodo nae;
-		if(nodo!=null) {
-			nae=nodo;
-			nodo = nae.getNodoSig();
-			return nae.getDato();
-		}
-		return null;
+		return lista.popFront();
 	}
 
 	@Override
 	public Object peek() {
-		if(nodo!=null)
-			return nodo.getDato();
-		return null;
+		return lista.searchAt(0);
 	}
 
 	@Override
 	public boolean isEmpty() {
-		if(nodo == null)
-			return true;
-		return false;
+		return lista.isEmpty();
 	}
 
 	@Override
 	public void empty() {
-		nodo = null;
-
+		lista.empty();
 	}
-
 }
 
