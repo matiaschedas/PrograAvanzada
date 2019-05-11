@@ -102,37 +102,34 @@ public class Lista {
 			aux=aux.getNodoSig();
 		}
 	}
-//	public boolean reverse() {//invierte el orden de los elementos en la lista
-//		Nodo pri, fin;
-//		int delta=this.size();
-//		int i=1;
-//		int cont=0;
-//		Object dato;
-//		boolean flag=false;
-//		
-//		if(nodo==null)
-//			return false;
-//		//se deberia hacer con intercambio de "punteros".
-//		pri=nodo;
-//		fin=null;
-//		while(pri!=fin && !flag) {
-//			fin=nodo;
-//			
-//			while(fin.getNodoSig()!=null && cont<delta-i) {
-//				cont++;
-//				fin=fin.getNodoSig();
-//			}
-//			dato=pri.getDato();
-//			pri.setDato(fin.getDato());
-//			fin.setDato(dato);
-//			i++;
-//			cont=0;
-//			pri=pri.getNodoSig();
-//			if(fin.getNodoSig()==pri)
-//				flag=true;
-//		}	
-//		return true;
-//	}
+	public boolean reverse() {//invierte el orden de los elementos en la lista
+		Nodo ini, fin;
+		int delta=this.size();
+		int i=1;
+		int cont=0;
+		Object dato;
+		boolean flag=false;
+		if(pri==null)
+			return false;
+		ini=pri;
+		fin=null;
+		while(ini!=fin && !flag) {
+			fin=pri;	
+			while(fin.getNodoSig()!=null && cont<delta-i) {
+				cont++;
+				fin=fin.getNodoSig();
+			}
+			dato=ini.getDato();
+			ini.setDato(fin.getDato());
+			fin.setDato(dato);
+			i++;
+			cont=0;
+			ini=ini.getNodoSig();
+			if(fin.getNodoSig()==ini)
+				flag=true;
+		}	
+		return true;
+	}
 	public boolean insertAt(int pos , Object dato) {//inserta dato en la pos indicada
 		Nodo nue,aux;
 		try {

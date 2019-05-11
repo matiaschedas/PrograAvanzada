@@ -22,7 +22,7 @@ public class ColaEstatica implements Cola{
 		this.frente=0;
 		this.fondo=-1;
 	}
-
+	
 	@Override
 	public boolean offer(Object dato) {
 		if(cantElem!=tam-1) {

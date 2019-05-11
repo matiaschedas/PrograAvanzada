@@ -2,33 +2,48 @@ package tpTDA;
 
 public class PilaEstatica implements Pila {
 
-	private static int tam=1000;
-	private int capacidad;
-	private int tope=-1;
+	private int tope;
 	private Object vector[];	
 	
 	public PilaEstatica() {
-		this.capacidad=tam;
-		this.vector = new Object[capacidad];
+		this.vector = new Object[2];
+		this.tope=-1;
 	}
-	public PilaEstatica(int tam) {		
-		this.capacidad = tam;
-		this.vector = new Object [capacidad];
+	
+	public static Object[] resizeArray(int resize, Object[] a) {
+
+	    Object[] b = new Object[resize];
+
+	    /* 1ºArg: Array origen,
+	     * 2ºArg: Por donde comienza a copiar en el origen
+	     * 3ºArg: Array destino
+	     * 4ºArg: Por donde comienza a copiar en el destino
+	     * 5ºArg: Numero de elementos que copiara del origen
+	     */
+	    System.arraycopy(a, 0, b, 0, a.length);
+	    return b;
 	}
 	
 	@Override
 	public boolean push(Object dato) {
-		if(tope<capacidad)
+		if((tope+1)<vector.length)
 			this.vector[++tope] = dato;
-		else return false;
-		
+		else {
+			try {
+			vector= resizeArray(vector.length*2,vector);
+			}
+			 catch (Exception e) {
+				return false;
+			}
+			this.vector[++tope] = dato;
+		}
 		return true;
 	}
 
 	@Override
 	public Object pop() {
 		if(tope==-1)
-		return null;
+			return null;
 		return vector[tope--];
 	}
 

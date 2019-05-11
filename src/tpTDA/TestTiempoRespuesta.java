@@ -8,7 +8,7 @@ public class TestTiempoRespuesta {
 
 	@Test
 	public void cualEsMasRapidoPila() {
-		PilaEstatica pilaE = new PilaEstatica(1000000);
+		PilaEstatica pilaE = new PilaEstatica();
 		PilaDinamica pilaD = new PilaDinamica();
 
 		long startTime = System.currentTimeMillis();
